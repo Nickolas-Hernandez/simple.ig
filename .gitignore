@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 
+go.sum
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
