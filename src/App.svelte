@@ -1,27 +1,38 @@
 <script>
-let username = '';
-let password = '';
+let username;
+let email;
+let password;
 
 
 async function handleLogin(e) {
   e.preventDefault();
-  const response = await fetch('/api/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      username: 'example_user',
-      password: 'example_password'
-    })
-  });
 
-  if (response.ok) {
-    // Handle successful login, e.g., store authentication token in browser's local storage
-    console.log('success!');
-  } else {
-    // Handle login failure, e.g., show an error message to the user
-    console.log('fail :(');
+  const userCredentials = {
+    username,
+    email,
+    password
+  };
+
+  try{
+    const response = await fetch('/api/user/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userCredentials)
+    });
+    
+    if (response.ok) {
+      // Handle successful login, e.g., store authentication token in browser's local storage
+      console.log('success!');
+      const data = await response.json();
+      console.log(data);
+    } else {
+      // Handle login failure, e.g., show an error message to the user
+      console.log('fail :(');
+    }
+  } catch {
+    console.log('error');
   }
 }
 
@@ -29,14 +40,17 @@ async function handleLogin(e) {
 
 <main>
   <section class="login">
-    <h1>Login</h1>
+    <h1>Create an Account</h1>
     <form on:submit={handleLogin} id="login">
-      <input type="text" id="username" name="username" required>
-      <input type="password" id="password" name="password" required>
-      <input type="submit" value="login">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" bind:value={username} required>
+      <label for="email">Email</label>
+      <input type="text" id="email" name="email" bind:value={email} required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" bind:value={password} required>
+      <input type="submit" value="Ping">
     </form>
   </section>
-
 </main>
 
 <style>
