@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
+	"os"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/joho/godotenv"
 )
 
@@ -14,9 +17,13 @@ func main() {
 		log.Fatal("Error loading .env.local file")
 	}
 
-	// dbHost := os.Getenv("DB_HOST")
-
 	// Create db connection
+	conn, err := pgx.Connect(context.Background(), os.Getenv("DB_URL"))
+	if err != nil {
+		log.Fatal("Error connecting to database")
+	}
+	defer conn.Close(context.Background())
+
 	// Create router
 	// Create routes
 	// Start server
