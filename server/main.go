@@ -1,56 +1,32 @@
 package main
 
 import (
-	"log"
-
-	"simple.ig/database"
-	_ "simple.ig/models"
-
-	"database/sql"
+	"context"
 	"fmt"
-	"io/ioutil"
+	"log"
+	"os"
 
-	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5"
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
 )
 
 func main() {
-	loadEnv()
-	loadDatabase()
-
-	router := gin.Default()
-	// router.GET("/api/ping", pong)
-	// router.POST("/api/user/register", registerUser(db))
-
-	router.Run("localhost:8080")
-}
-
-func pong(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "pong",
-	})
-}
-
-func registerUser(c *gin.Context, db *sql.DB) {
-	body, err := ioutil.ReadAll(c.Request.Body)
+	// set up env variables
+	err := godotenv.Load("../.env.local")
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal("Error loading .env.local file")
 	}
-	fmt.Println(string(body))
-	// connect to database
-	// add new user to database
-	// return success or failure
 
-}
-
-func loadDatabase() {
-	database.Connect()
-}
-
-func loadEnv() {
-	err := godotenv.Load(".env.local")
+	// Create db connection
+	conn, err := pgx.Connect(context.Background(), os.Getenv("DB_URL"))
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatal("Error connecting to database")
 	}
+	defer conn.Close(context.Background())
+
+	// Create router
+	// Create routes
+	// Start server
+
+	fmt.Println("Hello World!")
 }
