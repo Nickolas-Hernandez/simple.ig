@@ -14,7 +14,7 @@ async function handleLogin(e) {
   };
 
   try{
-    const response = await fetch('/api/user/register', {
+    const response = await fetch('/api/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -23,16 +23,13 @@ async function handleLogin(e) {
     });
     
     if (response.ok) {
-      // Handle successful login, e.g., store authentication token in browser's local storage
-      console.log('success!');
-      const data = await response.json();
-      console.log(data);
+      console.log('response: ', response);
     } else {
       // Handle login failure, e.g., show an error message to the user
-      console.log('fail :(');
+      console.log('else ', response);
     }
-  } catch {
-    console.log('error');
+  } catch (err) {
+    console.error(err);
   }
 }
 

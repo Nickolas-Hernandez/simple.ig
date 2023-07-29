@@ -29,12 +29,21 @@ func main() {
 	app := fiber.New()
 
 	// Create routes
-	app.Get("/ping", pingHandler)
+	app.Get("/api/ping", pingHandler)
+	app.Post("/api/auth/register", loginHandler)
 
 	// Start server
 	app.Listen(":3000")
 
 	fmt.Println("Hello World!")
+}
+
+func loginHandler(c *fiber.Ctx) error {
+	c.Accepts("application/json")
+	body := string(c.Body())
+	fmt.Println("Request body: ", body)
+	c.Status(fiber.StatusOK)
+	return c.SendString("Body has been logged")
 }
 
 func pingHandler(c *fiber.Ctx) error {
