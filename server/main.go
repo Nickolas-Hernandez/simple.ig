@@ -102,7 +102,6 @@ func (db *App) registerUser(c *fiber.Ctx) error {
 	signedToken, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
 		fmt.Println("error: ", err)
-
 		return err
 	}
 
