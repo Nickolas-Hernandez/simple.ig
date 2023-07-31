@@ -24,6 +24,10 @@ async function handleLogin(e) {
     
     if (response.ok) {
       console.log('response: ', response);
+      const userToken = await response.json();
+      console.log(userToken);
+      // Handle login success, e.g., redirect to homepage
+      // window.location.replace('/'
     } else {
       // Handle login failure, e.g., show an error message to the user
       console.log('else ', response);
