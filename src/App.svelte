@@ -1,4 +1,6 @@
 <script>
+import "./app.css"
+
 let username;
 let email;
 let password;
