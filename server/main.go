@@ -21,20 +21,16 @@ type User struct {
 	Email    string `json:"email"`
 }
 
-// var db *pgx.Conn
-
 type App struct {
 	DB *pgx.Conn
 }
 
 func main() {
-	// set up env variables
 	err := godotenv.Load("../.env.local")
 	if err != nil {
 		log.Fatal("Error loading .env.local file")
 	}
 
-	// Create db connection
 	conn, err := pgx.Connect(context.Background(), os.Getenv("DB_URL"))
 	if err != nil {
 		log.Fatal("Error connecting to database")
@@ -44,8 +40,6 @@ func main() {
 	db := App{
 		DB: conn,
 	}
-
-	// Create router
 	startServer(db)
 }
 
@@ -76,10 +70,6 @@ func (db *App) registerUser(c *fiber.Ctx) error {
 	}
 
 	hashedPassword, err := HashPassword(password)
-
-	// fmt.Println("hashedPassword: ", hashedPassword)
-
-	// fmt.Print(db.DB.Query(context.Background(), "select current_database()"))
 
 	query := `insert into public.users("username", "email", "password") values($1, $2, $3)`
 	_, err = db.DB.Exec(context.Background(), query, username, email, hashedPassword)
